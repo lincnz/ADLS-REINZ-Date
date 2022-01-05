@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/deps/datepicker.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <title>ADLS/REINZ counter</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><!-- Footer bar-->
+    <script src="js/deps/datepicker.min.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+
+<body class="d-flex flex-column">
+    <!-- Navbar-->
+    <nav class="navbar navbar-dark bg-dark">
+      <span class="navbar-text">
+
+      </span>
+    </nav>
+
+    <!-- Content --> 
+    <div class="container content">
+      <div class="counter_box">
+        <div class="head-bar">
+          <h1>ADLS/REINZ Working Day Counter</h1>
+        </div>
+        <p>Select applicable district:</p>
+  
+        <select class="input_field" name="district" id="districts">
+          <option value="" disabled selected>Select district</option>
+          <option value="auckland">Auckland/Northland</option>
+          <option value="canterbury_south">Canterbury (South)</option>
+          <option value="canterbury">Canterbury</option>
+          <option value="chatham">Chatham Islands</option>
+          <option value="hawkes_bay">Hawke’s Bay</option>
+          <option value="marlborough">Marlborough</option>
+          <option value="nelson">Nelson</option>
+          <option value="otago">Otago</option>
+          <option value="southland">Southland</option>
+          <option value="taranaki">Taranaki</option>
+          <option value="wellington">Wellington</option>
+          <option value="westland">Westland</option>
+        </select>
+
+        <!-- <button onclick="adlsDate.adlsDateFunc(Date())">Is today an ADLS/REINZ working day?</button>
+        <div class="output"></div>
+  
+        <div class="datepicker">
+          
+        </div> -->
+        
+        <!-- insert datpickers here -->
+
+        <div>
+          <input type="checkbox" id="lim_date" name="lim_date">
+          <label for="lim_date">LIM condition</label>
+        </div>
+        <input type="text" class="start input_style input_field" name="start" placeholder="Start date (not included)"/></input>
+
+
+        <input type="text" class="end input_style input_field" name="end" placeholder="End date (included)"/></input>
+
+        <button class="input_field" onclick="adlsDate.adlsDateRangeFunc()">Calculate working days</button>
+        <div class="output_range">0</div>
+        <p class="disclaimer">Matariki Observance Day treated as a non-working day from 2022.</p>
+        <p class="disclaimer">Some areas of Canterbury observe Canterbury Anniversary Day on Christchurch Show Day.</p>
+        <a class="disclaimer" href="/">Terms and Conditions</a>
+      </div>
+    </div>
+
+    <!-- Footer-->
+    <div class="footer">
+        <div class="p-4 mt-5 bg-light text-center"><small>© Lincoln Haworth</small></div>
+    </div>
+</body>
+</html>
