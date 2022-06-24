@@ -25,14 +25,29 @@ p {
     margin-bottom: 0.1em;
 }
 
+a {
+    text-decoration: none;
+    color: #666;
+}
+
 .counter_box {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(240, 240, 228);
+    margin: 1em;
+    box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+
+}
+
+.tab_page {
+    display: flex;
+    width: 100%;
     gap: 1em;
     flex-direction: column;
     align-items: center;
     background-color: lightgoldenrodyellow;
-    margin: 1em;
-    box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+    padding: 1em 0 3em 0;
 }
 
 .head-bar {
@@ -41,8 +56,27 @@ p {
     padding: 1.5em;
 }
 
+.inputs {
+    display: flex;
+    width: 100%;
+    gap: 1em;
+    flex-direction: column;
+    align-items: center;
+    background-color: lightgoldenrodyellow;
+}
+
 .input_field {
     width: 12em;
+}
+
+#from-html {
+    display: none;
+    position: relative;
+}
+
+#num_days {
+    width: 3em;
+    padding-top: 0;
 }
 
 .output {
@@ -66,3 +100,51 @@ p {
     font-size: 0.7em;
     margin-bottom: 0.4em;
 }
+
+.nav {
+  width: 100%;
+  
+}
+
+.nav-tabs .nav-link {
+    border: none;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: lightgoldenrodyellow;
+    border: none;
+}
+
+.tabs-changed-content {
+    height: 10em;
+}
+
+#calendar-display{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.month {
+
+    margin: 0.5em;
+    /* background-color: rgb(182, 181, 181);
+    margin: 1em;  */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.zabuto_calendar {
+
+}
+
+.weekend {
+    background-color: purple;
+}
+
+
+
+
+

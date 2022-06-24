@@ -1,0 +1,34 @@
+<div class="counter_box">
+  <div class="head-bar">
+    <h1>ADLS/REINZ Working Day Counter</h1>
+  </div>
+  <p>Select applicable district:</p>
+
+  <select class="input_field" name="district" id="districts">
+    <option value="" disabled selected>Select district</option>
+    <option value="auckland">Auckland/Northland</option>
+    <option value="canterbury_south">Canterbury (South)</option>
+    <option value="canterbury">Canterbury</option>
+    <option value="chatham">Chatham Islands</option>
+    <option value="hawkes_bay">Hawke’s Bay</option>
+    <option value="marlborough">Marlborough</option>
+    <option value="nelson">Nelson</option>
+    <option value="otago">Otago</option>
+    <option value="southland">Southland</option>
+    <option value="taranaki">Taranaki</option>
+    <option value="wellington">Wellington</option>
+    <option value="westland">Westland</option>
+  </select>
+
+  <div>
+    <input type="checkbox" id="lim_date" name="lim_date">
+    <label for="lim_date">LIM condition</label>
+  </div>
+
+  TODO: REPLACE WITH A COUNT-FROM COUNTER
+  <input type="text" class="start input_style input_field" name="start" placeholder="Start date (not included)"/></input>
+  <input type="text" class="end input_style input_field" name="end" placeholder="End date (included)"/></input>
+
+  <button class="input_field" onclick="adlsDate.adlsDateRangeFunc()">Calculate working days</button>
+  <div class="output_range">0</div>
+</div>
