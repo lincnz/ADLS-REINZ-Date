@@ -1,35 +1,27 @@
-//might get rid of  
+//try to get rid of globals
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let formFields = {};
+
 let startDate;
 let endDate;
-// let startFromDate = new Date();
-
 let start;
 let end;
-let startFrom;
+let startFromDate;
 
 let dateFunc =  Date();
 let dateConstr = new Date();
-
-let formFields = {};
-
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 // adls date code
 
 //TODO: 
   //solve southland ann issue
-  //double-check all regional holidays
-  //refactor day-checking system to be array-based/object-based
-  //
 
-let adlsDate = {
-
+const adlsDate = {
   //adds "days" number of calendar days to a date
   addDays : function(date, days) {
     date.setDate(date.getDate() + days);
     return date;
   },
-
 
   isDistrictNotSelected : function () {
     if (formFields.district.val() === null) {
@@ -40,13 +32,8 @@ let adlsDate = {
     }
   },
 
-  //collapse these into one
-  outputBetween : function (string) {
-    $(".output_between").text(string);
-  },
-
-  outputFrom : function (string) {
-    $(".output_from").text(string);
+  outputGeneral : function (string) {
+    $("#output").text(string);
   },
 
   monthDiff : function (startDate, endDate) {
@@ -57,34 +44,21 @@ let adlsDate = {
     return months <= 0 ? 0 : months;
   },
 
-  //TODO: remove eventually
-  zabutoCalendars : function (rangeData, startDate, endDate) {
-    var months = this.monthDiff(startDate, endDate);
-    for (i = 0; i <= months; i++){
-      $(".month").zabuto_calendar({
-        year: startDate.getFullYear(), 
-        month: (startDate.getMonth() + i + 1),
-        show_previous: false,
-        show_next: false,
-        data: rangeData
-      });
-    }
-  },
-
-  zabutoCalendars2 : function (data, startDate, endDate) {
+  //Creates month display
+  zabutoCalendars : function (data, startDate, endDate) {
     let months = this.monthDiff(startDate, endDate);
     let zabutoData = [];
 
     for (const [key, value] of Object.entries(data)) {
-      //console.log(key);
-
-      let toPush = {};
-      toPush.date = Date(key).toISOString().split('T')[0];
-      toPush.badge = value;
-      if (value) {toPush.classname = "weekend"} else {toPush.classname = null}
-      zabutoData.push(toPush)
-      console.log(toPush)
+      let toPush = {}; 
+      let keyDate = new Date(value[0]);
+      this.addDays(keyDate, 1);
+      toPush.date = keyDate.toISOString().split('T')[0];
+      toPush.classname = value[3];
+      zabutoData.push(toPush);
     }
+
+    $(".month").empty();
 
     for (i = 0; i <= months; i++){
       $(".month").zabuto_calendar({
@@ -97,7 +71,7 @@ let adlsDate = {
     }
   }, 
   
-  //returns "true" if it is a working day
+//returns an array of information for each day - output is: [date, working day boolean, string, short string]
   adlsDateFunc : function(date, district, limDate){  
     let currentDate = new Date(date);
     let day = currentDate.getDay(); //stored as number 0 to 6, 0 being sunday
@@ -185,7 +159,7 @@ let adlsDate = {
       }
     }
 
-    //the easter computus for calculating easter sunday
+    //the easter computus for calculating easter sunday - modified to return months 0 - 11
     function computus(Y) {
       //credit to Martin Webb: https://www.irt.org/utility/smprint.htm
       var C = Math.floor(Y/100);
@@ -314,8 +288,8 @@ let adlsDate = {
     //returns true if the date is the sovereign's official birthday (1 june - 7 june) (always monday)
     function sovbday () {
       return (
-        day === 1 &&
-        month === 5 &&
+        day === 1 && //monday
+        month === 5 && //june
         dayOfMonth <= 7 //if 1st june is a tuesday, the latest possible first monday in june is monday 7th
       )
     }
@@ -437,7 +411,7 @@ let adlsDate = {
     function southland_ann () {//easter tuesday *ANZAC CLASH UNRESOLVED - no explicit tuesdayisation law, next clash 2079* (wide range - 22 mar- 25 apr) 
       return ((
         computus(year)[0] === (dayOfMonth - 2) && //2 days after easter sunday
-        month <= 5 && //ADDRESSES A BUG - where southand anniversary was recorded in July - RESOLVE
+        month <= 5 && //ADDRESSES A BUG - where southand anniversary was recorded in July - TODO: RESOLVE
         day === 2
       ) || (
         computus(year)[0] <= 31 && //if easter sunday is in march and easter tuesday is in april
@@ -508,7 +482,7 @@ let adlsDate = {
       ) 
     }
     
-    //main function that runs each test in turn
+    //main function that runs each test in turn 
     function isADLSWorkingDay () {   
       //console.log(dayOfMonth);
       //if (weekend() ){console.log("weekend" + dayOfMonth)}
@@ -520,264 +494,176 @@ let adlsDate = {
       //if (eastermonday() ){console.log("easter monday" + dayOfMonth)}
       //if (sovbday() ){console.log("sovbday" + dayOfMonth)}
       //if (labourday() ){console.log("labourday" + dayOfMonth)}
-      if (regionaldays_min(district)) {
-          console.log("regional day " + district +" "+ dayOfMonth +" "+ monthNames[month] +" "+ year);
-          console.log(southland_ann ());
-          console.log(computus(year)[0]);
-      }
-      return (
-        !lim_date() &&
+      // if (regionaldays_min(district)) {
+      //     console.log("regional day " + district +" "+ dayOfMonth +" "+ monthNames[month] +" "+ year);
+      //     console.log(southland_ann ());
+      //     console.log(computus(year)[0]);
+      // }
+
+      let booleanOutput;
+      let stringOutput;
+      let shortOutput;
+
+      if (
         !weekend() &&
-        !waitangi() &&
-        !anzac() &&
-        !matariki() &&
+        !regionaldays_min(district) &&
         !xmas() &&
         !goodfriday() &&
         !eastermonday() &&
+        !lim_date() &&
+        !waitangi() &&
+        !anzac() &&
+        !matariki() &&
         !sovbday() &&
-        !labourday() &&
-        !regionaldays_min(district)
+        !labourday()
+      ) { booleanOutput = true; stringOutput = "Working Day"; shortOutput = "working-day";}
+      else if (weekend()){booleanOutput = false; stringOutput = "Weekend Day"; shortOutput = "weekend";}
+      else if (regionaldays_min(district)){booleanOutput = false; stringOutput = "Regional Holiday Observed"; shortOutput = "reg-day";}
+      else if (xmas()){booleanOutput = false; stringOutput = "Christmas Holidays"; shortOutput = "xmas-holiday";}
+      else if (goodfriday()){booleanOutput = false; stringOutput = "Good Friday"; shortOutput = "good-friday";}
+      else if (eastermonday()){booleanOutput = false; stringOutput = "Easter Monday"; shortOutput = "easter-monday";}
+      else if (lim_date()){booleanOutput = false; stringOutput = "Christmas Holidays (LIM condition additional days)"; shortOutput = "lim-day";}
+      else if (waitangi()){booleanOutput = false; stringOutput = "Waitangi Day Observed"; shortOutput = "waitangi-ob";}
+      else if (anzac()){booleanOutput = false; stringOutput = "ANZAC Day Observed"; shortOutput = "anzac-ob";}
+      else if (matariki()){booleanOutput = false; stringOutput = "Matariki Observed"; shortOutput = "matariki-ob";}
+      else if (sovbday()){booleanOutput = false; stringOutput = "Sovereigns Birthday Observed"; shortOutput = "sov-ob";}
+      else if (labourday()){booleanOutput = false; stringOutput = "Labour Day Observed"; shortOutput = "labour-ob";}
+      else {booleanOutput = false; stringOutput = "ERROR"; console.log("ERROR");}
+
+      return (
+        [currentDate, booleanOutput, stringOutput, shortOutput]
       )
     }
 
     //calls main function that runs through each public holiday
-    return isADLSWorkingDay();
+    let output = isADLSWorkingDay();
+    return output;
   },
 
-  //TODO: can remove soon
-  adlsDateRangeFunc : function() {
-    //derives the number days forward to test
-    //TODO: tidy up and separate out logically
-    if (this.isDistrictNotSelected()) { this.outputBetween("Select district"); }
-    else {
-      var testDate = new Date(startDate); //the day iteratively being tested as a working day
+  //date range function
+  adlsDateRangeObjectFunc : function(endDate, startDate) {
 
-      let testDays = Math.round((endDate - startDate)/864e5); //works out total number of days
-      let workingDays = 0; //the product of this function, starts at 0
-
-      //sets/clears variables for zabuto calendars
-      var rangeData = [];
-      rangeData.length = 0;
-      $(".month").empty();
-
-      //displays calendars
-      //TODO: make dispay oiutput dates, set different colours, tooltips
-      //moves display days along one - write a simple function to add on day!!!!
-      var zabutoDate = new Date(testDate);
-      zabutoDate = this.addDays(zabutoDate, 1)
-
-      //runs the check if testDate is a working day, takes input from district and LIM date fields
-      //TODO: can the inputs be separated out into wider variables?
-      for (let i = 1; i <= testDays; i++ ) 
-      {
-        this.addDays(testDate, 1); //adds one day to test date
-        this.addDays(zabutoDate, 1); //adds one day to zabutodate
-
-        var isWorkingDay = false;
-
-        if (this.adlsDateFunc(testDate, formFields.district.val(), formFields.limDate.checked)){
-          isWorkingDay = true;
-          workingDays++;
-        }
-        else {
-          isWorkingDay = false;
-        }
-
-        //TODO: everything below here should be moved to separate function
-        //pushes each day as a zabuto object to rangeData
-        var toPush = {
-          "date" : (zabutoDate).toISOString().split('T')[0], 
-          "badge": isWorkingDay,
-          classname: null
-        }
-
-        //prototype code for outputting classes
-        if (isWorkingDay) { toPush.classname = "weekend"}
-
-        //pushes info about the day to rangeData
-        rangeData.push(toPush)
-      }
-      //runs output function
-      this.outputBetween(workingDays + " working days");
-
-      //shows zabuto calendars - move to HTML?
-      this.zabutoCalendars(rangeData, startDate, endDate);
-
-    }
-  },
-
-  //experimental code to process as arrays/objects
-  adlsDateRangeObjectFunc : function() {
-
-    if (this.isDistrictNotSelected()) { this.outputBetween("Select district"); }
-    else if (endDate === undefined || startDate === undefined) { this.outputBetween("Select both dates"); } 
+    if (this.isDistrictNotSelected()) { this.outputGeneral("Select district"); }
+    else if (endDate === undefined || startDate === undefined) { this.outputGeneral("Select both dates"); } 
     else {
       let testDate = new Date(startDate); //the day iteratively being tested as a working day
-      let outputObject = {};
+      let outputData = {};
       let testDays = Math.round((endDate - startDate)/864e5); //works out total number of days //TODO: could do alt in calendar days
       let workingDays = 0; //the product of this function, starts at 0
 
-
-      //TODO: redesign this
+      //checks each test day and makes an object full of the data
       for (let i = 1; i <= testDays; i++ ) {
-        this.addDays(testDate, 1); //increment test date y 1 calendar day
-        if (this.adlsDateFunc(testDate, formFields.district.val(), formFields.limDate.checked)){ //checks district and limdate inputs - move?
-          outputObject[testDate] = true;
-        }
-        else {
-          outputObject[testDate] = false;
-        } 
+        this.addDays(testDate, 1); //increment test date by 1 calendar day
+        outputData[i] = this.adlsDateFunc(testDate, formFields.district.val(), formFields.limDate.checked)
       }
 
-      //TESTING - prints working days in the object to the console
-      for (const [key, value] of Object.entries(outputObject)) {
-        if (value) {
-          //console.log(key + " is a working day")
+      //counts number of working days in the outputObject
+      for (const [key, value] of Object.entries(outputData)) {
+        if (value[1]) {
           workingDays++;
         }
       }
 
-      //TESTING
-      //console.log(Object.entries(outputObject))
-      
-      //outputs working days and visial representation as calendars
-      this.outputBetween(workingDays + " working days");
-      this.zabutoCalendars2(outputObject, startDate, endDate);
+      //outputs working days and visual representation as calendars
+      //TODO: replace with "return" statement and separate function?
+      this.outputGeneral(workingDays + " working days");
+      this.zabutoCalendars(outputData, startDate, endDate);
     }
   },
 
-  adlsDateFromFunc : function() {
-    let workingDays = $("#num_days").val();
-    let countDownDays = workingDays;
-    let stepDate = new Date(startFromDate);
+//date from function
+  adlsDateFromFunc : function(startFromDate) {
 
-    //count working days down
-    if (this.isDistrictNotSelected()) { this.outputFrom("Select district"); }
+    //count working days down - TODO: broken - fix
+    if (this.isDistrictNotSelected()) { this.outputGeneral("Select district"); }
+    else if (startFromDate === undefined) { this.outputGeneral("Select start date"); } 
     else {
-      while (countDownDays > 0) {
-        stepDate.setDate(stepDate.getDate() + 1);
-        if (this.adlsDateFunc(stepDate, formFields.district.val(), formFields.limDate.checked)) {
-          countDownDays--;
+      let countDownDays = $("#num_days").val();
+      let workingDays = countDownDays;
+      let stepDate = new Date(startFromDate);
+      let outputData = {};
+
+
+      //want to derive number of days that = working days + non-working days
+      
+      for (i = 0; i < countDownDays; i++)
+      {
+        stepDate = this.addDays(stepDate, 1);
+        let output = this.adlsDateFunc(stepDate, formFields.district.val(), formFields.limDate.checked);
+        if (output[1] === false) {
+          outputData[i] = output;
+          countDownDays++;
+        } 
+        else if (output[1]) {
+          outputData[i] = output;
         }
       }
-      this.outputFrom(stepDate.toString().slice(0, 15)); //outputs short date as text
+
+      //TODO: needed?
+      for (const [key, value] of Object.entries(outputData)) {
+        if (value[1]) {
+          workingDays++;
+        }
+      }
+
+      console.log(outputData);
+      this.outputGeneral(stepDate.toString().slice(0, 15));
+      this.zabutoCalendars(outputData, startFromDate, stepDate);
+
+        //outputs short date as text
       workingDays = $("#num_days").val();
     }
   }
 }
 
-// let ux = {
-//   showCalendar : function(startDate, endDate) {
-//     //put this function somewhere sensible
-
-
-//     //put this function somewhere sensible
-//     function daysInMonth(month, year) {
-//       return new Date(year, month, 0).getDate();
-//     }
-
-//     function renderDays (days) {
-//       for (i = 0; i <= days; i++) { $(this).append("<div class='day-box'></div>") }
-//     }
-
-//     var months = monthDiff(startDate, endDate);
-
-//     $("#calendar-display").empty();
-//     $("#calendar-display").css("display", "flex");
-
-//     for (i = 0; i <= months; i++){
-//       //separate out somehow, i-dependent
-//       var currentMonth = (startDate.getMonth() + i) % 12;
-//       var currentYear = startDate.getFullYear() + (Math.floor((i + startDate.getMonth())/12));
-
-//       //console.log(currentMonth);
-//       //console.log(currentYear);
-//       //console.log(Math.floor((i + startDate.getMonth())/12));
-
-//       //put this declaration somewhere sensible
-//       let currentMonthString = new Date();
-//       currentMonthString.setMonth(currentMonth);
-//       currentMonthString.setDate(1);
-//       currentMonthString.setHours(0);
-//       //let daysInMonth = daysInMonth(currentMonthString.getMonth() + 1, currentYear);
-
-//       //break down a bit
-//       $("#calendar-display").append("<div class='month' id='month-" + currentMonth + "'>" + 
-//         monthNames[currentMonthString.getMonth()] + " " +
-//           currentYear + 
-//       "</div>");
-//     }
-
-//     for (i = 0; i <= months; i++) {
-//       var currentMonth2 = (startDate.getMonth() + i) % 12;
-//       var currentYear2 = startDate.getFullYear() + (Math.floor((i + startDate.getMonth())/12));
-
-//       $("#month-" + (i + startDate.getMonth())).append("<div class='day-box'></div>");
-
-    
-//     }
-//   }
-// }
-
-// initialisation code
-$( document ).ready(function() {
-
-  //get form state on doc load - doesn't deal with forward testing days or datepickers
-  formFields.district = $("#districts");
-  formFields.limDate = document.getElementById("lim_date");
-
-  //clears output box
-  $(".output").text("");
-
-  // menu controls
-  $(".nav-link").click(function() {
+//Menu controls - can evolve into general UX rules - called below after document is ready
+function menuControls() {
+  $(".nav-link").on("click", function() {
       $(".nav-link").removeClass('active');
       $(this).addClass('active');
   });  
-  $("#range").click(function() {
+  $("#range").on("click", function() {
     $("#range-html").css('display', 'flex');
     $("#from-html").hide()
   });
-  $("#from").click(function() {
+  $("#from").on("click", function() {
     $("#from-html").css('display', 'flex');
     $("#range-html").hide()
   });
+}
 
-  //calendar
+//sets up the date pickers - called below after document is ready - move into general UX
+function datePickers() {
+  start = datepicker( '.start', { id: 1, onSelect: (instance, date) => { startDate = date; }})
+  end = datepicker( '.end', { id: 1, onSelect: (instance, date) => { endDate = date; }})
+  startFrom = datepicker('.start_from', { id: 2, onSelect: (instance, date) => { startFromDate = date; }})
+}
+
+// initialisation code
+jQuery(function() {
+
+  //TODO: tidy all form inputs into one place
+  //adds form field data to formFields object
+  formFields.district = $("#districts");
+  formFields.limDate = document.getElementById("lim_date");
+  let district = $("#districts");
   
+
+  //runs menu controls
+  menuControls();
+
   //datepicker code has to run after document is ready
   //TODO: set up date pickers to recognise typed input rather than selected
-  //TODO: moev this?
-  
-  start = datepicker(
-    '.start', 
-    { 
-      id: 1,
-      onSelect: (instance, date) => {
-        startDate = date;
-      } 
-    }
-  )
-  
-  end = datepicker(
-    '.end', 
-    { 
-      id: 1,
-      onSelect: (instance, date) => {
-        endDate = date;
-      }
-    }
-  )
+  datePickers();
 
-  //startDateFromFinal is somehow getting changed by function calls on button press
-  startFrom = datepicker(
-    '.start_from', 
-    { 
-      id: 2,
-      onSelect: (instance, date) => {
-        startFromDate = date;
-      }
-    }
-  )
+  //TODO: figure out why Javascript requires anonymous functions here
+  $("#date-range-button").on("click", function () {
+    adlsDate.adlsDateRangeObjectFunc(endDate, startDate)
+  });
+
+  
+  $("#date-from-button").on("click", function () {
+    adlsDate.adlsDateFromFunc(startFromDate)
+  });
 
 });

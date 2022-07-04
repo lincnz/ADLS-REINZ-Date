@@ -75,7 +75,7 @@
             <input type="text" class="start input_style input_field" name="start" placeholder="Start date (not included)"/></input>
             <input type="text" class="end input_style input_field" name="end" placeholder="End date (included)"/></input>
           
-            <button class="input_field" onclick="adlsDate.adlsDateRangeObjectFunc()/*, adlsDate.adlsDateRangeFunc()*/">Calculate working days</button>
+            <button id="date-range-button" class="input_field">Calculate working days</button>
           </div>
 
           <!-- inputs for from mode -->
@@ -87,14 +87,13 @@
               <input type="number" min="0" id="num_days" class="input_style input_field" name="num_days"/></input>
             </div>
 
-            <button class="input_field" onclick="adlsDate.adlsDateFromFunc();">Calculate end date</button>
+            <button id="date-from-button" class="input_field">Calculate end date</button>
           </div>
         </div>
 
         <!-- Output -->
         <div>
-          <div class="output_range output_between">0</div>
-          <div class="output_range output_from">(enter a date)</div>
+          <div class="output" id="output">(enter dates)</div>
         </div>
         <!-- calendar output -->
         <div class="glyphicon glyphicon-chevron-right"></div>
@@ -118,4 +117,5 @@
 
 
 </body>
+
 </html>
