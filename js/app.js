@@ -72,6 +72,7 @@ const adlsDate = {
   }, 
   
 //returns an array of information for each day - output is: [date, working day boolean, string, short string]
+//TODO: use more JS logic
   adlsDateFunc : function(date, district, limDate){  
     let currentDate = new Date(date);
     let day = currentDate.getDay(); //stored as number 0 to 6, 0 being sunday
