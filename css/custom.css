@@ -139,81 +139,119 @@ a {
 
 }
 
-.day {
-    width: 3em;
-    height: 1.5em;
-    padding-top: 0;
-}
 
 .working-day {
-    background-color: grey;
-    border-radius: 3px;
+    background-color: rgb(255, 177, 177);
 }
 
 .weekend {
-    background-color: rgb(216, 134, 79);
-    border-radius: 3px;
+    background-color: rgb(215, 215, 215);
+    filter: brightness(0.8);
 }
 
 .reg-day {
     background-color: rgb(0, 128, 4);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .xmas-holiday {
-    background-color: rgb(128, 0, 0);
-    color:rgb(240, 240, 228);
-    border-radius: 3px;
+    background-color: rgb(128, 0, 0);filter: brightness(r:r)gb(240, 240, 228);
+    filter: brightness(0.8);
 }
 
 .good-friday {
     background-color: rgb(0, 0, 0);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .easter-monday {
     background-color: rgb(0, 0, 0);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .lim-day {
     background-color: rgb(125, 56, 56);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .waitangi-ob {
     background-color: rgb(108, 37, 16);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .anzac-ob {
     background-color: rgb(44, 38, 108);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .matariki-ob {
     background-color: rgb(31, 134, 115);
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .sov-ob {
     background-color: purple;
     color:rgb(240, 240, 228);
-    border-radius: 3px;
+    filter: brightness(0.8);
 }
 
 .labour-ob {
     background-color: red;
+    filter: brightness(0.8);
+}
+
+.day {
+    height: 2em;
+    width: 3em;
+    line-height: 1em;
+    padding: 0.5em;
+    cursor: pointer;
+    margin: 0;
+    text-align: center;
     border-radius: 3px;
+    z-index: 1;
+    /* display: flex;
+    justify-content: space-around;
+    align-items: center; */
+}
+
+.day .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    margin-left: -60px;
 }
 
 
+.day .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.day:hover .tooltiptext {
+  visibility: visible;
+}
 
 
 

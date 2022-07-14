@@ -56,8 +56,10 @@ const adlsDate = {
       toPush.date = keyDate.toISOString().split('T')[0];
       toPush.classname = value[3];
       zabutoData.push(toPush);
+      
     }
 
+  
     $(".month").empty();
 
     for (i = 0; i <= months; i++){
@@ -68,7 +70,31 @@ const adlsDate = {
         show_next: false,
         data: zabutoData
       });
+
     }
+
+    
+
+    // for (const [key, value] of Object.entries(data)) {
+    //   if (!value[1]) {
+    //     $("." + value[3]).append("<span class='tooltiptext'>" + value[2] + "</span>")
+    //   }
+    // }
+
+    // console.log(data)
+    // console.log(Object.entries(data))
+    $(".reg-day").append("<span class='tooltiptext'>Regional Holiday Observed</span>") 
+    $(".sov-ob").append("<span class='tooltiptext'>Queen's Birthday Observed</span>") 
+    $(".labour-ob").append("<span class='tooltiptext'>Labour Day Observed</span>") 
+    $(".waitangi-ob").append("<span class='tooltiptext'>Waitangi Day Observed</span>") 
+    $(".anzac-ob").append("<span class='tooltiptext'>ANZAC Day Observed</span>") 
+    $(".matariki-ob").append("<span class='tooltiptext'>Matariki Observed</span>") 
+    $(".xmas-holiday").append("<span class='tooltiptext'>Christmas Holidays</span>") 
+    $(".lim-day").append("<span class='tooltiptext'>Christmas Holidays (LIM condition extended period)</span>") 
+    $(".good-friday").append("<span class='tooltiptext'>Good Friday</span>") 
+    $(".easter-monday").append("<span class='tooltiptext'>Easter Monday</span>") 
+    
+
   }, 
   
 //returns an array of information for each day - output is: [date, working day boolean, string, short string]
