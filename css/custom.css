@@ -135,9 +135,6 @@ a {
     justify-content: space-around;
 }
 
-.zabuto_calendar {
-
-}
 
 
 .working-day {
@@ -155,7 +152,7 @@ a {
 }
 
 .xmas-holiday {
-    background-color: rgb(128, 0, 0);filter: brightness(r:r)gb(240, 240, 228);
+    background-color: rgb(128, 0, 0);
     filter: brightness(0.8);
 }
 
