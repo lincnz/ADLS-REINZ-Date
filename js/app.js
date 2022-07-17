@@ -44,6 +44,13 @@ const adlsDate = {
     return months <= 0 ? 0 : months;
   },
 
+  tooltipMaker : function (selectedClass, text, placement) {
+    $(selectedClass).attr("data-toggle", "tooltip");
+    $(selectedClass).attr("data-placement", placement);
+    $(selectedClass).attr("title", text);
+    $(selectedClass).tooltip();
+  },
+
   //Creates month display
   zabutoCalendars : function (data, startDate, endDate) {
     let months = this.monthDiff(startDate, endDate);
@@ -83,16 +90,20 @@ const adlsDate = {
 
     // console.log(data)
     // console.log(Object.entries(data))
-    $(".reg-day").append("<span class='tooltiptext'>Regional Holiday Observed</span>") 
-    $(".sov-ob").append("<span class='tooltiptext'>Queen's Birthday Observed</span>") 
-    $(".labour-ob").append("<span class='tooltiptext'>Labour Day Observed</span>") 
-    $(".waitangi-ob").append("<span class='tooltiptext'>Waitangi Day Observed</span>") 
-    $(".anzac-ob").append("<span class='tooltiptext'>ANZAC Day Observed</span>") 
-    $(".matariki-ob").append("<span class='tooltiptext'>Matariki Observed</span>") 
-    $(".xmas-holiday").append("<span class='tooltiptext'>Christmas Holidays</span>") 
-    $(".lim-day").append("<span class='tooltiptext'>Christmas Holidays (LIM condition extended period)</span>") 
-    $(".good-friday").append("<span class='tooltiptext'>Good Friday</span>") 
-    $(".easter-monday").append("<span class='tooltiptext'>Easter Monday</span>") 
+    //$(".reg-day").append("<span class='tooltiptext'>Regional Holiday Observed</span>") 
+
+
+    this.tooltipMaker(".sov-ob", "Queen's Birthday Observed", "bottom")
+    this.tooltipMaker(".reg-day", "Regional Holiday Observed", "bottom")
+    this.tooltipMaker(".labour-ob", "Labour Day Observed", "bottom")
+    this.tooltipMaker(".waitangi-ob", "Waitangi Day Observed", "bottom")
+    this.tooltipMaker(".anzac-ob", "ANZAC Day Observed", "bottom")
+    this.tooltipMaker(".matariki-ob", "Matariki Observed", "bottom")
+    this.tooltipMaker(".xmas-holiday", "Christmas Holidays", "bottom")
+    this.tooltipMaker(".lim-day", "Christmas Holidays (LIM condition extended period)", "bottom")
+    this.tooltipMaker(".good-friday", "Good Friday", "bottom")
+    this.tooltipMaker(".easter-monday", "Easter Monday", "bottom")
+
     
 
   }, 
@@ -675,7 +686,6 @@ jQuery(function() {
   formFields.limDate = document.getElementById("lim_date");
   let district = $("#districts");
   
-
   //runs menu controls
   menuControls();
 
@@ -694,3 +704,8 @@ jQuery(function() {
   });
 
 });
+
+//necessary for bootstrap tooltips
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
