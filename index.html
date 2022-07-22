@@ -1,60 +1,65 @@
 <!DOCTYPE html>
 <html>
-<head>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VM5VC0DC6E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-VM5VC0DC6E');
-</script>
-
-
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VM5VC0DC6E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VM5VC0DC6E');
+    </script>
+  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ADLS/REINZ working day counter</title>
+  
+    <!-- styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="deps/calendar-1/zabuto_calendar.css">
     <link rel="stylesheet" href="css/deps/datepicker.min.css">
+  
+    <!-- not used -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  
+    <!-- custom css -->
     <link rel="stylesheet" href="css/custom.css">
-    <title>ADLS/REINZ counter</title>
-    
-
+  
+    <!-- js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><!-- Footer bar-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js" integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
     <script src="./deps/popper.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><!-- Footer bar-->
     <script src="deps/calendar-1/zabuto_calendar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="js/deps/datepicker.min.js"></script>
+  
+    <!-- not used -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  
+    <!-- custom js -->
     <script src="js/app.js"></script>
-
-
-</head>
+  </head>
 
 <body class="d-flex flex-column">
 
-    <!-- Navbar-->
-    <nav class="navbar navbar-dark bg-dark">
-      <span class="navbar-text">
+  <!-- Navbar-->
+  <nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-text">
+      <a class="hidden" href="#">Working Day Counter</a>
+      <a class="hidden" href="../conditiontracker">Condition Tracker</a>
+    </span>
+  </nav>
 
-      </span>
-    </nav>
-
-    <!-- Content --> 
-    <div class="container content">
-      <div class="counter_box">
-        <div class="head-bar">
-          <h1>Working Day Counter</h1>
-          </br>
-          <h4>ADLS/REINZ agreement for sale and purchase of real estate (11th edition) </h4>
-          
-        </div>
-
+  <!-- Content --> 
+  <div class="container content">
+    <div class="counter_box">
+      <div class="head-bar">
+        <h1>Working Day Counter</h1>
+        </br>
+        <h4>ADLS/REINZ agreement for sale and purchase of real estate (11th edition) </h4>
+      </div>
       <ul class="nav nav-tabs nav-fill">
         <li class="nav-item">
           <a class="nav-link active" id="range" aria-current="page" href="#">Count working days between dates</a>
@@ -63,10 +68,8 @@
           <a class="nav-link" id="from" href="#">Count working days from a date</a>
         </li>
       </ul>
-
       <div class="tab_page">
         <p>Select applicable district:</p>
-      
         <select class="input_field" name="district" id="districts">
           <option value="" disabled selected>Select district</option>
           <option value="auckland">Auckland/Northland</option>
@@ -87,53 +90,52 @@
           <input type="checkbox" id="lim_date" name="lim_date">
           <label for="lim_date">LIM condition</label>
         </div>
-
-        <!-- inputs for between mode -->
+        
         <div class="tabs-changed-content">
+
+          <!-- inputs for between mode -->
           <div class="inputs" id="range-html">
             <input type="text" class="start input_style input_field" name="start" placeholder="Start date (not included)"/></input>
             <input type="text" class="end input_style input_field" name="end" placeholder="End date (included)"/></input>
-          
             <button id="date-range-button" class="input_field">Calculate working days</button>
           </div>
 
           <!-- inputs for from mode -->
           <div class="inputs" id="from-html">
             <input type="text" class="start_from input_style input_field" name="start_from" placeholder="Start date"/></input>
-
             <div>
               <label for="num_days">Number of working days: </label>
               <input type="number" min="0" id="num_days" class="input_style input_field" name="num_days"/></input>
             </div>
-
             <button id="date-from-button" class="input_field">Calculate end date</button>
           </div>
+
         </div>
 
         <!-- Output -->
         <div>
           <div class="output" id="output">(enter dates)</div>
         </div>
+
         <!-- calendar output -->
         <div class="glyphicon glyphicon-chevron-right"></div>
-
         <div id="calendar-display">
           <div class="month"></div>
         </div>
+
       </div>
     </div>
 
-        <p class="disclaimer">Matariki Observance Day treated as a non-working day from 2022.</p>
-        <p class="disclaimer">Some areas of Canterbury observe Canterbury Anniversary Day on Christchurch Show Day.</p>
-        <a class="disclaimer" href="./terms-conds/terms-conds.html">Terms and Conditions</a>
+    <p class="disclaimer">Matariki Observance Day treated as a non-working day from 2022.</p>
+    <p class="disclaimer">Some areas of Canterbury observe Canterbury Anniversary Day on Christchurch Show Day.</p>
+    <a class="disclaimer" href="./terms-conds/terms-conds.html">Terms and Conditions</a>
+    
   </div>
 
-
-    <!-- Footer-->
-    <div class="footer">
-        <div class="p-4 mt-5 bg-light text-center"><small>© Lincoln Haworth 2022</small></div>
-    </div>
-
+  <!-- Footer-->
+  <div class="footer">
+      <div class="p-4 mt-5 bg-light text-center"><small>© Lincoln Haworth 2022</small></div>
+  </div>
 
 </body>
 

@@ -12,6 +12,8 @@ html, body {
     background: #F6F6F6;
 }
 
+
+
 .content {
     flex: 1 0 auto !important;
     text-align: center;
@@ -26,8 +28,30 @@ p {
 }
 
 a {
-    text-decoration: none;
-    color: #666;
+  text-decoration: none;
+  color: #666;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* sample code for hover fades - generalise */
+.navbar-text a {
+  padding: 0 2em 0 2em;
+  color: #c9c9c9;
+  text-decoration: none;
+  transition: opacity .3s ease-out;
+  -moz-transition: opacity .3s ease-out;
+  -webkit-transition: opacity .3s ease-out;
+  -o-transition: opacity .3s ease-out;
+}
+
+.navbar-text a:hover {
+  color: #c9c9c9;
+  opacity: 0.5;
+  text-decoration: none;
 }
 
 .counter_box {
@@ -125,7 +149,6 @@ a {
 }
 
 .month {
-
     margin: 0.5em;
     /* background-color: rgb(182, 181, 181);
     margin: 1em;  */
@@ -135,7 +158,10 @@ a {
     justify-content: space-around;
 }
 
-
+.zabuto_calendar {
+    display: none;
+    border: none;
+}
 
 .working-day {
     background-color: rgb(255, 177, 177);
