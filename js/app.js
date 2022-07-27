@@ -3,11 +3,8 @@ function data () {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   let formFields = {};
 
-  //variables for datepickers - tidy up
   let startDate;
   let endDate;
-  let start;
-  let end;
   let startFromDate;
 
   const utils = {
@@ -22,15 +19,57 @@ function data () {
     addDays : function(date, days) {
       date.setDate(date.getDate() + days);
       return date;
+    },
+
+    ukToUSdate : function (input) {
+      //likely to get easily confused by non-standard inputs - improve or use a library
+
+      function checkNotyyyyMMdd (input) {
+        if (
+          /^[0-9]+$/.test(input[0]) &&
+          /^[0-9]+$/.test(input[1]) &&
+          /^[0-9]+$/.test(input[2]) &&
+          /^[0-9]+$/.test(input[3])
+        ) {
+          return true
+        }
+        else {
+          return false
+        }
+      }
+
+      function checkChars (input) {
+        if (!checkNotyyyyMMdd(input)) {
+          if (input.includes('.')) {
+            return input.split('.');
+          }
+          else if (input.includes('/')) {
+            return input.split('/');
+          }
+          else if (input.includes('-')) {
+            return input.split('-');
+          }
+          else if (input.includes('—')) {
+            return input.split('—');
+          }
+        }
+        else {
+          console.log('yyyy-mm-dd missed detection')
+          throw new Error('yyyy-mm-dd missed detection')
+        }
+      }
+
+      let ukOrderArray = checkChars (input);
+      let reassembledUSorder = ukOrderArray[1] + "/" + ukOrderArray[0] + "/" + ukOrderArray[2]
+
+      return reassembledUSorder
     }
   }
 
   const adlsDate = {
     //adds "days" number of calendar days to a date
-
-
     isDistrictNotSelected : function () {
-      if (formFields.district.val() === null) {
+      if (formFields.district === null) {
         return true;
       }
       else {
@@ -41,7 +80,6 @@ function data () {
   //TODO: 
   //solve southland ann issue
   //returns an array of information for each day - output is: [date, working day boolean, string, short string]
-  //TODO: use more JS logic
     adlsDateFunc : function(date, district, limDate){  
       let currentDate = new Date(date);
       let day = currentDate.getDay(); //stored as number 0 to 6, 0 being sunday
@@ -131,7 +169,7 @@ function data () {
 
       //the easter computus for calculating easter sunday - modified to return months 0 - 11
       function computus(Y) {
-        //credit to Martin Webb: https://www.irt.org/utility/smprint.htm
+        //copyright Martin Webb: https://www.irt.org/utility/smprint.htm
         var C = Math.floor(Y/100);
         var N = Y - 19*Math.floor(Y/19);
         var K = Math.floor((C - 17)/25);
@@ -163,7 +201,6 @@ function data () {
           day === 5 
         ) {
           return true;
-
         }
         else if ( //if easter sunday falls on 2 april and good friday is in march
           easterSun[0] === 2 &&
@@ -172,12 +209,10 @@ function data () {
           day === 5 
         ) {
           return true;
-
         }
         else if ( //if easter sunday falls on any other day
             dayOfMonth === (easterSun[0] - 2) &&
             month === easterSun[1]
-                
         ) {
           return true;
           
@@ -360,8 +395,11 @@ function data () {
             dayOfMonth <= 26 &&
             day === 1 &&
             computus(year)[0] != dayOfMonth - 1 
+            
         ) { 
+          
           return true 
+          
         }
         else if (
             computus(year)[0] === (dayOfMonth - 2) &&
@@ -428,20 +466,27 @@ function data () {
       //takes region input, and returns true if the date is a regional holiday
 
       function regionaldays_min (d) {
-        return (
-          d === 'auckland' && auckland_ann() ||
-          d === 'canterbury_south' && southcanterbury_ann() ||
-          d === 'canterbury'  && canterbury_ann() ||
-          d === 'chatham' && chatham_ann() ||
-          d === 'hawkes_bay' && hawkes_bay_ann() ||
-          d === 'marlborough' && marlborough_ann() ||
-          d === 'nelson' && nelson_ann() ||
-          d === 'otago' && otago_ann() ||
-          d === 'southland' && southland_ann() ||
-          d === 'taranaki' && taranaki_ann() ||
-          d === 'wellington' && wellington_ann() ||
-          d === 'westland' && westland_ann()
-        )
+        if (d === null) {
+          console.log("Error: no district passed to regional days function");
+          alert("Error: no district passed to regional days function");
+          return false;
+        }
+        else {
+          return (
+            d === 'auckland' && auckland_ann() ||
+            d === 'canterbury_south' && southcanterbury_ann() ||
+            d === 'canterbury'  && canterbury_ann() ||
+            d === 'chatham' && chatham_ann() ||
+            d === 'hawkes_bay' && hawkes_bay_ann() ||
+            d === 'marlborough' && marlborough_ann() ||
+            d === 'nelson' && nelson_ann() ||
+            d === 'otago' && otago_ann() ||
+            d === 'southland' && southland_ann() ||
+            d === 'taranaki' && taranaki_ann() ||
+            d === 'wellington' && wellington_ann() ||
+            d === 'westland' && westland_ann()
+          )
+        }
       }
 
       //returns true if the date is in the period from 24 dec to 5 jan inclusive
@@ -488,9 +533,6 @@ function data () {
         return (
           [currentDate, booleanOutput, stringOutput, shortOutput]
         )
-
-
-
       }
 
       //calls main function that runs through each public holiday
@@ -499,7 +541,8 @@ function data () {
     },
 
     //date range function
-    adlsDateRangeObjectFunc : function(endDate, startDate) {
+    //TODO: warning if selected date is not working day
+    adlsDateRangeObjectFunc : function(endDate, startDate, district, limDate) {
 
       //TODO: move and generalise input handling
       if (this.isDistrictNotSelected()) { ui.outputGeneral("Select district"); }
@@ -513,7 +556,7 @@ function data () {
         //checks each test day and makes an object full of the data
         for (let i = 1; i <= testDays; i++ ) {
           utils.addDays(testDate, 1); //increment test date by 1 calendar day
-          outputData[i] = this.adlsDateFunc(testDate, formFields.district.val(), formFields.limDate.checked)
+          outputData[i] = this.adlsDateFunc(testDate, district, limDate)
         }
 
         //counts number of working days in the outputObject
@@ -534,46 +577,33 @@ function data () {
     },
 
   //date from function
-    adlsDateFromFunc : function(startFromDate) {
+    adlsDateFromFunc : function(startFromDate, countDownDays, district, limDate) {
 
       //count working days down - TODO: broken - fix
       if (this.isDistrictNotSelected()) { ui.outputGeneral("Select district"); }
       else if (startFromDate === undefined) { ui.outputGeneral("Select start date"); } 
       else {
-        let countDownDays = $("#num_days").val();
-        let workingDays = countDownDays;
         let stepDate = new Date(startFromDate);
         let outputData = {};
 
-
         //want to derive number of days that = working days + non-working days
-        
         for (i = 0; i < countDownDays; i++)
         {
           stepDate = utils.addDays(stepDate, 1);
-          let output = this.adlsDateFunc(stepDate, formFields.district.val(), formFields.limDate.checked);
-          if (output[1] === false) {
+          let output = this.adlsDateFunc(stepDate, district, limDate);
+          if (!output[1]) {
             outputData[i] = output;
             countDownDays++;
           } 
           else if (output[1]) {
             outputData[i] = output;
           }
+          else { console.log("error: day is not defined as working/non-working"); alert("error: day is not defined as working/non-working"); }
         }
-
-        //TODO: needed?
-        for (const [key, value] of Object.entries(outputData)) {
-          if (value[1]) {
-            workingDays++;
-          }
-        }
-
-        console.log(outputData);
+        
+        //outputs short date as text
         ui.outputGeneral(stepDate.toString().slice(0, 15));
         ui.zabutoCalendars(outputData, startFromDate, stepDate);
-
-          //outputs short date as text
-        workingDays = $("#num_days").val();
       }
     }
   }
@@ -601,7 +631,6 @@ function data () {
         toPush.date = keyDate.toISOString().split('T')[0];
         toPush.classname = value[3];
         zabutoData.push(toPush);
-        
       }
 
       $(".month").empty();
@@ -618,19 +647,6 @@ function data () {
         $(".zabuto_calendar").slideDown();
       }
 
-      
-
-      // for (const [key, value] of Object.entries(data)) {
-      //   if (!value[1]) {
-      //     $("." + value[3]).append("<span class='tooltiptext'>" + value[2] + "</span>")
-      //   }
-      // }
-
-      // console.log(data)
-      // console.log(Object.entries(data))
-      //$(".reg-day").append("<span class='tooltiptext'>Regional Holiday Observed</span>") 
-
-
       ui.tooltipMaker(".sov-ob", "Queen's Birthday Observed", "bottom")
       ui.tooltipMaker(".reg-day", "Regional Holiday Observed", "bottom")
       ui.tooltipMaker(".labour-ob", "Labour Day Observed", "bottom")
@@ -643,8 +659,8 @@ function data () {
       ui.tooltipMaker(".easter-monday", "Easter Monday", "bottom")
     },
 
+    //TODO: generalise
     menuControls : function () {
-      console.log("test")
       $(".nav-link").on("click", function() {
           $(".nav-link").removeClass('active');
           $(this).addClass('active');
@@ -666,43 +682,82 @@ function data () {
     },
 
     datePickers: function () {
-      start = datepicker( '.start', { id: 1, onSelect: (instance, date) => { startDate = date; }})
-      end = datepicker( '.end', { id: 1, onSelect: (instance, date) => { endDate = date; }})
-      startFrom = datepicker('.start_from', { id: 2, onSelect: (instance, date) => { startFromDate = date; }})
+      //TODO: add event listeners for typing if necessary
+      let start = datepicker( '.start', { id: 1, 
+        onSelect: (instance, date) => { 
+          //BUG: parses American-format mm/dd/yyyy
+          startDate =  new Date(Date.parse(date)); 
+        }
+      })
+      let end = datepicker( '.end', { id: 1, 
+        onSelect: (instance, date) => { 
+          //BUG: parses American-format mm/dd/yyyy
+          endDate = new Date(Date.parse(date)); 
+        }
+      })
+
+        //TODO: gets range as object - use
+        // console.log(end.getRange())
+      
+      let startFrom = datepicker('.start_from', { id: 2, onSelect: (instance, date) => { 
+        //BUG: parses American-format mm/dd/yyyy
+        startFromDate = new Date(Date.parse(date)); 
+      }})
     }
   }
 
-  //Menu controls - can evolve into general UX rules - called below after document is ready
-
-
-  // initialisation code
+  //  code on document.ready
   jQuery(function() {
 
     //TODO: tidy all form inputs into one place
-    //adds form field data to formFields object
-    //could probably replace with eventlisteners
-    formFields.district = $("#districts");
-    formFields.limDate = document.getElementById("lim_date");
-    let district = $("#districts");
+    //TODO: need to add typing eventlisteners to datepickers - otherwise previous data is retained
+    //Is this necessary?
+    formFields.district = $("#districts").val();
+    formFields.limDate = document.getElementById("lim_date").checked;
+    formFields.numDays = $("#num_days").val();
+
+    $("#districts").on('change', function() { 
+      formFields.district = $("#districts").val();
+    });
+    
+    $("#num_days").on('change', function() { 
+      formFields.numDays = $("#num_days").val();
+    })
+
+    $("#lim_date").on('change', function() { 
+      formFields.limDate = document.getElementById("lim_date").checked;
+    })
 
     //runs menu controls
-    ui.menuControls();
-    ui.toolTips();
-
-    //datepicker code has to run after document is ready
-    //TODO: set up date pickers to recognise typed input rather than selected
+    ui.menuControls()
+    ui.toolTips()
+    //datepicker code must run after document is ready
     ui.datePickers();
 
     //TODO: figure out why Javascript requires anonymous functions here
+    //TODO: move these out into functions
     $("#date-range-button").on("click", function () {
-      adlsDate.adlsDateRangeObjectFunc(endDate, startDate)
+      if (startDate instanceof Date && endDate instanceof Date) {
+        adlsDate.adlsDateRangeObjectFunc(endDate, startDate, formFields.district, formFields.limDate);
+        $(".start", ".end").val('');
+      }
+      else {
+        alert("Click on box to select date");
+      }
     });
 
     $("#date-from-button").on("click", function () {
-      adlsDate.adlsDateFromFunc(startFromDate)
+      if (startFromDate instanceof Date) {
+        adlsDate.adlsDateFromFunc(startFromDate, formFields.numDays, formFields.district, formFields.limDate);
+        $(".start-from").val('');
+      }
+      else {
+        alert("Click on box to select date");
+      }
     });
 
-    $('input[name="dates"]').daterangepicker();
+    //alternative using daterangepicker.js - not used
+    // $('input[name="dates"]').daterangepicker();
 
   });
 }

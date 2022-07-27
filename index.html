@@ -13,10 +13,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ADLS/REINZ working day counter</title>
-  
+
     <!-- styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="deps/calendar-1/zabuto_calendar.css">
     <link rel="stylesheet" href="css/deps/datepicker.min.css">
   
@@ -25,13 +25,13 @@
   
     <!-- custom css -->
     <link rel="stylesheet" href="css/custom.css">
-  
+
     <!-- js -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><!-- Footer bar-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js" integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
     <script src="./deps/popper.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js" integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script><!-- Footer bar-->
     <script src="deps/calendar-1/zabuto_calendar.js"></script>
     <script src="js/deps/datepicker.min.js"></script>
   
@@ -39,7 +39,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   
     <!-- custom js -->
-    <script src="js/app.js"></script>
+    <script src="js/app.js" ></script>
+
   </head>
 
 <body class="d-flex flex-column">
@@ -85,9 +86,10 @@
           <option value="wellington">Wellington</option>
           <option value="westland">Westland</option>
         </select>
+
       
         <div>
-          <input type="checkbox" id="lim_date" name="lim_date">
+          <input type="checkbox"  id="lim_date" name="lim_date">
           <label for="lim_date">LIM condition</label>
         </div>
         
@@ -95,19 +97,19 @@
 
           <!-- inputs for between mode -->
           <div class="inputs" id="range-html">
-            <input type="text" class="start input_style input_field" name="start" placeholder="Start date (not included)"/></input>
-            <input type="text" class="end input_style input_field" name="end" placeholder="End date (included)"/></input>
-            <button id="date-range-button" class="input_field">Calculate working days</button>
+            <input type="text" class="start input_style input_field" name="start" autocomplete="off" placeholder="Start date (not included)"/></input>
+            <input type="text" class="end input_style input_field" name="end" autocomplete="off" placeholder="End date (included)"/></input>
+            <button id="date-range-button" class="input_field compute_button">Calculate working days</button>
           </div>
 
           <!-- inputs for from mode -->
           <div class="inputs" id="from-html">
-            <input type="text" class="start_from input_style input_field" name="start_from" placeholder="Start date"/></input>
+            <input type="text" class="start_from input_style input_field" name="start_from" autocomplete="off" placeholder="Start date"/></input>
             <div>
               <label for="num_days">Number of working days: </label>
               <input type="number" min="0" id="num_days" class="input_style input_field" name="num_days"/></input>
             </div>
-            <button id="date-from-button" class="input_field">Calculate end date</button>
+            <button id="date-from-button" class="input_field compute_button">Calculate end date</button>
           </div>
 
         </div>
@@ -129,7 +131,7 @@
     <p class="disclaimer">Matariki Observance Day treated as a non-working day from 2022.</p>
     <p class="disclaimer">Some areas of Canterbury observe Canterbury Anniversary Day on Christchurch Show Day.</p>
     <a class="disclaimer" href="./terms-conds/terms-conds.html">Terms and Conditions</a>
-    
+
   </div>
 
   <!-- Footer-->
@@ -138,5 +140,7 @@
   </div>
 
 </body>
+
+
 
 </html>
