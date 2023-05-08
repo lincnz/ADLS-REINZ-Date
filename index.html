@@ -15,10 +15,15 @@
     <title>ADLS/REINZ working day counter</title>
 
     <!-- styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="deps/calendar-1/zabuto_calendar.css">
     <link rel="stylesheet" href="css/deps/datepicker.min.css">
+
   
     <!-- not used -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -45,6 +50,8 @@
 
 <body class="d-flex flex-column">
 
+  <!-- Notifications -->
+
   <!-- Navbar-->
   <nav class="navbar navbar-dark bg-dark">
     <span class="navbar-text">
@@ -53,7 +60,6 @@
     </span>
   </nav>
 
-  <!-- Content --> 
   <div class="container content">
     <div class="counter_box">
       <div class="head-bar">
@@ -68,7 +74,11 @@
         <li class="nav-item">
           <a class="nav-link" id="from" href="#">Count working days from a date</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" id="from" href="#">New: track conditions</a>
+        </li>
       </ul>
+      
       <div class="tab_page">
         <p>Select applicable district:</p>
         <select class="input_field" name="district" id="districts">

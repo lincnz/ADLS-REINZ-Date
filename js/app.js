@@ -647,7 +647,7 @@ function data () {
         $(".zabuto_calendar").slideDown();
       }
 
-      ui.tooltipMaker(".sov-ob", "Queen's Birthday Observed", "bottom")
+      ui.tooltipMaker(".sov-ob", "King's Birthday Observed", "bottom")
       ui.tooltipMaker(".reg-day", "Regional Holiday Observed", "bottom")
       ui.tooltipMaker(".labour-ob", "Labour Day Observed", "bottom")
       ui.tooltipMaker(".waitangi-ob", "Waitangi Day Observed", "bottom")

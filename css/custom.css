@@ -6,7 +6,7 @@ html, body {
     height: 100% !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Lato', sans-serif;
     line-height: 1.6;
     color: #000000;
     background: #DEE2E6;
@@ -37,6 +37,16 @@ a {
 
 .hidden {
   display: none;
+}
+
+.alert{
+  background-color: tomato;
+  margin:  1em auto;
+  font-size: 1.4em;
+  align-items: center;
+  padding: 1.5em;
+  width: 70%;
+  border-radius: 0.3em;
 }
 
 
@@ -150,17 +160,16 @@ table {
 }
 
 .nav-tabs {
-    border-color: #FFFFFF;
+    background-color: #165A7A;
 }
 
-.nav-tabs {
-  background-color: #165A7A;
+.nav-item {
+    margin: 0.1em;
 }
 
 /* necessary? */
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     background-color: #FFFFFF;
-    border: none;
     border-radius: 0;
 }
 
