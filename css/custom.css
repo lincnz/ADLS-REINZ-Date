@@ -61,10 +61,27 @@ a {
   -o-transition: opacity .3s ease-out;
 }
 
+.greyed {
+  color: #c9c9c9;
+  opacity: 0.5;
+  text-decoration: none;
+  transition: none;
+  -moz-transition: none;
+  -webkit-transition: none;
+  -o-transition: none;
+}
+
 .navbar-text a:hover {
   color: #c9c9c9;
   opacity: 0.5;
   text-decoration: none;
+}
+
+.navbar-text a:hover .greyed {
+   transition: none;
+  -moz-transition: none;
+  -webkit-transition: none;
+  -o-transition: none;
 }
 
 .counter_box {
@@ -148,6 +165,8 @@ table {
     font-size: 0.7em;
     margin-bottom: 0.4em;
     /* color: #000000; */
+    color: #2a2a2a;
+    display: block;
 }
 
 .nav {
